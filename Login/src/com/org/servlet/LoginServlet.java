@@ -3,6 +3,7 @@ package com.org.servlet;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -129,7 +130,13 @@ public class LoginServlet extends HttpServlet {
     	//响应处理结果
     		if(u != null) {
     			//创建Cookie信息 实现三天免登录
-    			
+    			Cookie ck = new Cookie("user_id",u.getUser_id()+"");
+    			//设置Cookie的有效期
+    			ck.setMaxAge(3*24*3600);
+    			//设置有效路径
+    			ck.setPath("./LoginServlet");
+    			//添加Cookie信息
+    			response.addCookie(ck);
     			
     			//请求转发
     			//request.getRequestDispatcher("MainServlet").forward(request, response);
