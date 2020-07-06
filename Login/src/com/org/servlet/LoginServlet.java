@@ -98,7 +98,13 @@ import com.org.service.impl.LoginServiceImpl;
  *  		3.临时存储：存储在浏览器的运行内存中，浏览器关闭后即失效
  *  		4.定时存储：设置了Cookie的有效期，存储在客户端的硬盘中，在有效期内，符合路劲要求的请求都会附带该信息.
  *  
- * 
+ * Session技术学习：
+ * 		问题背景：
+ * 			一个用户的不同请求处理的数据共享怎么办？
+ * 		解决：
+ * 			使用session技术
+ * 		原理：
+ * 			
  * 	
  */
 @WebServlet("/LoginServlet")

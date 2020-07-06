@@ -8,6 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.org.pojo.User;
+import com.org.service.LoginService;
+import com.org.service.impl.LoginServiceImpl;
+
 /**
  * Servlet implementation class CookieServlet
  * Coockie信息校验
@@ -31,14 +35,42 @@ public class CookieServlet extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		//获取请求信息
 			//获取Coockie信息
-				Cookie [] ck = request.getCookies();	
+				Cookie [] cks = request.getCookies();	
 		//处理请求信息
-				if(ck != null) {
-					
+				if(cks != null) {
+					//遍历Cookie信息
+					for(Cookie c:cks) {
+						String user_id = "";
+						if("user_id".equals(c.getName())){
+							user_id = c.getValue();
+						}
+						//校验user_id是否存在
+						if("".equals(user_id)) {
+							//如果user_id存在请求转发
+							request.getRequestDispatcher("LoginServlet").forward(request, response);
+							return;
+						}else {
+							//如果user_id不存在
+								//数据库中校验user_id用户信息
+								//获取业务层对象
+								LoginService ls = new LoginServiceImpl();
+								User u = ls.CheckUseridService(user_id);
+								if(u!=null) {
+									//重定向到主页面
+									response.sendRedirect("./MainServlet");
+									return;
+								}else {
+									//请求转发到登录页面
+									request.getRequestDispatcher("LoginServlet").forward(request, response);
+									return;
+								}
+						}
+					}
 				}else {
 				//响应请求信息
 					//请求转发
 					request.getRequestDispatcher("LoginServlet").forward(request, response);
+					return;
 				}
 	}
 }
