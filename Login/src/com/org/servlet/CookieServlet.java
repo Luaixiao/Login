@@ -56,6 +56,8 @@ public class CookieServlet extends HttpServlet {
 								LoginService ls = new LoginServiceImpl();
 								User u = ls.CheckUseridService(user_id);
 								if(u!=null) {
+									//将数据存储到session对象中
+									request.getSession().setAttribute("username", u);
 									//重定向到主页面
 									response.sendRedirect("./MainServlet");
 									return;

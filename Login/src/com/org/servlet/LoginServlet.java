@@ -7,6 +7,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.org.pojo.User;
 import com.org.service.LoginService;
@@ -104,6 +105,50 @@ import com.org.service.impl.LoginServiceImpl;
  * 		解决：
  * 			使用session技术
  * 		原理：
+ * 			用户第一次访问服务器，服务器会创建一个session对象给此用户，并将该session对象的JSESSIONID使用Cookie技术储存到浏览器中，保证
+ * 			用户的其他请求能够获取到同一个session对象，也保证了不同请求能够获取到共享的数据
+ * 		特点：
+ * 			存储在服务器端
+ * 			服务器进行创建
+ * 			依赖Cookie技术
+ * 			一个会话
+ * 			默认存储时间是30分钟
+ * 		作用：
+ * 			解决了一个用户不同请求处理的数据共享问题
+ * 		使用：
+ * 			创建session对象/获取session对象
+ * 				HttpSession hs = request.getSession();
+ * 				如果请求中拥有session的标识符，也就是JSESSIONID,则返回对应的session对象
+ * 				如果请求中没有session的标识符，也就是JSESSIONID,则创建新的session对象，并将其JSESSIONID作为从cookie数据存储到浏览器中
+ * 				如果session对象失效 了，也会重新创建一个sesison对象，并将其JSEESIONID存储在浏览器内存中
+ * 			设置session存储时间
+ * 				hs.setMaxInactiveInterval(5);
+ * 				注意：在指定的时间内，session对象没有被使用和销毁，如果使用了则重新计时.
+ * 			设置session强制失效：
+ * 				hs.invalidate();
+ * 			存储和获取数据：
+ * 				存储：hs.setAttrbute(String name,Object value);
+ * 				获取：hs.getAttrbute(String name)；返回的数据为Object
+ * 			注意：
+ * 				存储的动作和取出的动作发生在不同的请求中，但是存储要先于去除执行.
+ * 		使用时机：
+ * 			一般用户在登录web项目时，会将用户的个人信息存储到session中，供该用户的其他请求使用.
+ * 		总结：
+ * 			session解决了一个用户的不同请求的数据共享问题，只要在JSESSIONID不失效和session对象不失效哦啊的情况下,用户的任意请求在处理时都能
+ * 			获取到同一个session对象。
+ * 		作用域：
+ * 			一次会话
+ * 			在JSESSIONID和session对象不失效的情况下作用域为整个项目内.
+ * 		session失效处理：
+ * 			将用户请求中的JSESSIONID和后台获取到的session对象的id进行比对，如果一致则session没有失效，如果不一致则证明session失效了.
+ * 			重定向到登录页面，重新登录.
+ * 		注意
+ * 			JSEESIONID存储在Cookie的临时存储空间中，浏览器关闭即失效。
+ * 
+ * 解决主页面用户名显示为null的问题：
+ * 		原因：
+ * 			因为在用户登录后，使用重定向显示主页面，两次请求，而用户的信息在第一次请求中，第二次请求中没有用户数据，所以显示为null。
+ * 		
  * 			
  * 	
  */
@@ -144,10 +189,15 @@ public class LoginServlet extends HttpServlet {
     			//添加Cookie信息
     			response.addCookie(ck);
     			
+    			//将数据存储到session对象中
+    			//创建session对象
+    			HttpSession hs = request.getSession();
+    			//存储用户信息到session 
+    			hs.setAttribute("username", u);
     			//请求转发
     			//request.getRequestDispatcher("MainServlet").forward(request, response);
     			
-    			//重定向
+    			//重定向到主页面
     			response.sendRedirect("./MainServlet");
     			response.getWriter().write("登陆成功");
     		}
