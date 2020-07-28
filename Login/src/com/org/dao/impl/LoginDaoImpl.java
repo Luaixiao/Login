@@ -6,8 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.org.bean.User;
 import com.org.dao.LoginDao;
-import com.org.pojo.User;
 
 public class LoginDaoImpl implements LoginDao{
 

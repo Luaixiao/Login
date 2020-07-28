@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.org.pojo.User;
+import com.org.bean.User;
 import com.org.service.LoginService;
 import com.org.service.impl.LoginServiceImpl;
 

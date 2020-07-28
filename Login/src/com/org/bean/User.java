@@ -1,4 +1,4 @@
-package com.org.pojo;
+package com.org.bean;
 
 public class User {
 	private String user_id;

@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.org.pojo.User;
+import com.org.bean.User;
 
 /**
  * Servlet implementation class MainServlet
