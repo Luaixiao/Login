@@ -6,45 +6,51 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.org.bean.User;
 
 /**
- * Servlet implementation class MainServlet
+ * Servlet implementation class ShowServlet
  */
-@WebServlet("/MainServlet")
-public class MainServlet extends HttpServlet {
+@WebServlet("/ShowServlet")
+public class ShowServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//设置请求编码格式
+        //设置请求编码格式
 		request.setCharacterEncoding("utf-8");
-		//设置相应编码格式
-		response.setContentType("text/html;charset=utf-8");
+		//设置响应编码格式
+		response.setContentType("text/html; charset=utf-8");
 		//获取请求信息
-			//获取session对象
-			User u = (User) request.getSession().getAttribute("username");
-			if (u == null) {
-				response.sendRedirect("./LoginServlet");
-				return;
-			}
+		HttpSession hs = request.getSession();
+		User u = (User) hs.getAttribute("username");
 		//处理请求信息
-		//相应处理结果
+		
+		
+		//响应处理结果
 		response.getWriter().write("《欢迎登录》");
 		response.getWriter().write("<html>");
 		response.getWriter().write("<head>");
 		response.getWriter().write("<body>");
-		response.getWriter().write("<h3>欢迎"+u.getUser_name()+ "访问管理系统</h3>");
-		response.getWriter().write("<hr>");
-		response.getWriter().write("<form action = 'ShowServlet' method = 'get'>");
-		response.getWriter().write("<input type = 'submit' value = '查看個人信息'>");
-		response.getWriter().write("</form>");
+		response.getWriter().write("<table border = '1px'>");
+		response.getWriter().write("<tr>");
+		response.getWriter().write("<td>用户名</td>");
+		response.getWriter().write("<td>" + u.getUser_name() + "</td>");
+		response.getWriter().write("</tr>");
+		response.getWriter().write("<tr>");
+		response.getWriter().write("<td>密码</td>");
+		response.getWriter().write("<td>" + u.getUser_password() + "</td>");
+		response.getWriter().write("</tr>");
+		response.getWriter().write("</table>");
 		response.getWriter().write("</body>");
 		response.getWriter().write("</head>");
 		response.getWriter().write("</html>");
+		
+		
 	}
 
 }

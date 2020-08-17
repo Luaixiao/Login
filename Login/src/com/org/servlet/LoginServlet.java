@@ -148,6 +148,12 @@ import com.org.service.impl.LoginServiceImpl;
  * 解决主页面用户名显示为null的问题：
  * 		原因：
  * 			因为在用户登录后，使用重定向显示主页面，两次请求，而用户的信息在第一次请求中，第二次请求中没有用户数据，所以显示为null。
+ * 
+ * ServletContext对象：
+ * 		作用：解决了不同用户的数据共享问题
+ * 		原理：由服务器创建ServletContext对象，一个项目只有一个
+ * 		使用：获取ServletContext对象
+ * 			使用ServletContext对象完成数据共享
  * 		
  * 			
  * 	

@@ -45,7 +45,7 @@ public class SessionServlet extends HttpServlet {
 			//创建Session对象
 			HttpSession hs = request.getSession();
 			//存储数据
-			
+			hs.setAttribute("username", name);
 		//设置session的存储时间
 			//hs.setMaxInactiveInterval(5);
 		//设置session强制失效
